@@ -15,7 +15,6 @@ This is a comprehensive Retail Inventory Management dashboard built entirely in 
   * Edit existing items via a native HTML dialog modal (PATCH request).
   * Delete items securely with a browser confirmation dialog.
   * Real-time summary statistics calculating Total Items, Inventory Value, and Low Stock Alerts.
-* **Bonus Feature (+5 Marks):** LocalStorage-persisted Dark/Light mode theme toggle using CSS variables.
 * **Resiliency:** Implements `async/await` with comprehensive `try/catch` error handling and visual loading states.
 
 ## Setup and Installation Instructions
