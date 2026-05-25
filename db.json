@@ -1,0 +1,49 @@
+{
+  "inventory":[
+    {
+      "id":"INV-8821",
+      "name":"Mesh task chair",
+      "sku":"FUR-102-CH",
+      "category":"Furniture",
+      "price":299.00,
+      "stock":45,
+      "maxstock":60,
+      "status":"In Stock",
+      "imageUrl":"https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=400"
+},
+{
+  "id":"INV-8822",
+  "name":"Noise Cancel Pro",
+  "sku":"ELE-442-HP",
+  "CATAGORY":"Electronics",
+  "price":189.50,
+  "Stock":8,
+  "maxstock":40,
+  "status":"Low Stock",
+  "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400"
+},
+{
+  "id":"INV-8823",
+  "name":"Vantage Smart",
+  "sku":"ELE-901-SW",
+  "category":"Electronics",
+  "price":420.0,
+  "Stock":120,
+  "maxstock":120,
+  "status":"In Stock",
+  "imageUrl":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400"
+},
+{
+  "id":"INV-8824",
+  "name":"Swift runners",
+  "sku":"APP-331-RS",
+  "category":"Apparel",
+  "price":120.00,
+  "Stock":0,
+  "maxstock":100,
+  "status":"Discotinued",
+  "imageUrl":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=400"
+
+}
+  ]
+}
