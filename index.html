@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Inventory Management System </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="nav_brand">Retail Inventory Management System</div>
+    </header>
+    <main class="user-layout">
+        <div class="top-section">
+            <section class="hero-card">
+                <div>
+                    <h2>Inventory Control</h2>
+                    <p>Manage your product levels with precision.</p>
+                </div>
+                <div>
+                    <span class="material-symbol-outlined">inventory_2</span>
+                    <div class="hero-number" id="active-items-count">0</div>
+                    <div style="font-size: 0.875rem; text-transform: uppercase;">Total Active Items</div>
+                </div>
+            </section>
+            </div>
+            <section class="form-card" id="form-container">
+                <h2>Add New Item</h2>
+                <p>>Form fields will be injected here.</p>
+            </section>
+            <section>
+                <div class="inventory-header">
+                    <div>
+                        <h2>Inventory Viewer</h2>
+                        <p>Real-time stock monitoring.</p>                 
+                    </div>
+                </div>
+                <div id="inventory-grid" class="grid-container"></div>
+            </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
