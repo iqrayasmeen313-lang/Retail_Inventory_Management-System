@@ -34,6 +34,16 @@
                         <h2>Inventory Viewer</h2>
                         <p>Real-time stock monitoring.</p>                 
                     </div>
+                    <div class="input-group" style="flex-direction: row; align-items: center; gap:1rem;">
+                        <label for="filter-category">Filter by:</label>
+                        <select id="filter-category" style="width: auto;">
+                            <option value="All">All Categories</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Apparel">Apparel</option>
+                            <option value="Audio">Audio</option>
+                        </select>
+                    </div>
                 </div>
                 <div id="inventory-grid" class="grid-container"></div>
             </section>
