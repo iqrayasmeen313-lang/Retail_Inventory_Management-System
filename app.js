@@ -17,7 +17,7 @@ catch(error){
     document.getElementById('inventory-grid').innerHTML='<div style="color: var(--status-danger);grid-column: 1/-1;">Error loading data. Ensure JSON Server is running.</div>';
 }
 }
-
+// rener grid function receives data (array of items) and displays them on the webpage.
 //render grid html
 function renderGrid(data){
     const grid = document.getElementById('inventory-grid');
@@ -76,3 +76,63 @@ document.getElementById('filter-category').addEventListener('change',(e)=>{
  document.addEventListener('DOMContentLoaded',()=>{
     fetchinventory();
  });
+//create post and check inline property
+document.getElementById('add-item-form').addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    // gather all inputs 
+    const name= document.getElementById('name').value.trim();
+    const sku= document.getElementById('sku').value.trim()
+    const category= document.getElementById('category').value;
+    const price= parseFloat(document.getElementById('price').value);
+    const stock= parseInt(document.getElementById('stock').value);
+
+    //reset error msgs(at begining we hide the error)
+    document.querySelectorAll('.error-msg').forEach(el=>el.style.display='none')
+    let isValid= true;
+        // Custom Inline Validation checks
+if (!name) { document.getElementById('err-name').style.display = 'block'; isValid = false; }
+    if (!sku) { document.getElementById('err-sku').style.display = 'block'; isValid = false; }
+    if (!category) { document.getElementById('err-category').style.display = 'block'; isValid = false; }
+    if (isNaN(price) || price <= 0) { document.getElementById('err-price').style.display = 'block'; isValid = false; }
+    if (isNaN(stock) || stock < 0) { document.getElementById('err-stock').style.display = 'block'; isValid = false; }    
+        if (!isValid) return; 
+
+    // Construct the new data object
+    const newItem = {
+        id: `INV-${Math.floor(1000 + Math.random() * 9000)}`, // Generate random 4-digit ID
+        name,
+        sku,
+        category,
+        price,
+        stock,
+        maxStock: 100, // Default max stock for percentage calculations
+        status: stock > 0 ? "In Stock" : "Out of Stock",
+        imageUrl: "https://images.unsplash.com/photo-1580169980114-ccd0babfa840?auto=format&fit=crop&q=80&w=400" // Fallback image
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newItem)
+        });
+
+        if (!response.ok) throw new Error('Failed to save item');
+
+        // Reset the form inputs
+        document.getElementById('add-item-form').reset();
+        
+        // Re-fetch and re-render the grid automatically
+        fetchInventory(); 
+        
+    } catch (error) {
+        console.error("Error posting data:", error);
+        // Display error visually instead of an alert box
+        const errBlock = document.createElement('div');
+        errBlock.style = 'color: white; background: var(--status-danger); padding: 1rem; border-radius: 6px; margin-top: 1rem;';
+        errBlock.textContent = "Failed to submit data. Check server connection.";
+        document.getElementById('add-item-form').appendChild(errBlock);
+        setTimeout(() => errBlock.remove(), 4000); // Remove after 4 seconds
+    }
+ 
+})

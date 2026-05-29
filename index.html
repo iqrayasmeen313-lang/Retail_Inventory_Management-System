@@ -25,8 +25,49 @@
             </section>
             </div>
             <section class="form-card" id="form-container">
-                <h2>Add New Item</h2>
-                <p>>Form fields will be injected here.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                   <h2>Add New Item</h2>
+                   <span class="badge" style="background: var(--bg-secondary);">Mannaul Entry</span>
+                    <!-- span is inline container which used for styling purpose and badge is class which is used to style the span element. -->
+                </div>
+                <form id="add-item-form" class="form-grid">
+                    <div class="input-group">
+                        <label for="name">Item Name</label>
+                        <input id="name" type="text" placeholder="e.g. Chair">
+                        <span class="error-msg" id="err-name">Name is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="sku">SKU</label>
+                        <input type="text" id="SKU" placeholder="e.g.FUR-992-UI">
+                        <span class="error-msg" id="err-sku">SKU Is Required</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option for="">Select Category</option>
+                            <option for="furniture">Furniture</option>
+                            <option for="apperal">Apperal</option>
+                            <option for="electronics">Electronics</option>
+                            <option for="audio">Audio</option>
+                        </select>
+                        <span class="error-msg" id="err-category">Please select a category</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="price">Price</label>
+                        <input type="text" id="price" step="0.01" min="0.01" placeholder="0.00">
+                        <span class="error-msg" id="err-price">Valid price required</span>
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="stock">Quantity</label>
+                        <input type="text" id="stock"  min="0" placeholder="0">
+                        <span class="error-msg" id="err-stock">Quantity required</span>
+                    </div>
+                    <div class="input-group full-width" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-primary">
+                            <span class="material-symbols-outlined">Add</span>Add to inventory
+                        </button>
+                    </div>
+                </form>
             </section>
             <section>
                 <div class="inventory-header">
