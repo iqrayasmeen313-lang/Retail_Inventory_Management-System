@@ -17,7 +17,7 @@ catch(error){
     document.getElementById('inventory-grid').innerHTML='<div style="color: var(--status-danger);grid-column: 1/-1;">Error loading data. Ensure JSON Server is running.</div>';
 }
 }
-// rener grid function receives data (array of items) and displays them on the webpage.
+// render grid function receives data (array of items) and displays them on the webpage.
 //render grid html
 function renderGrid(data){
     const grid = document.getElementById('inventory-grid');
@@ -136,3 +136,4 @@ if (!name) { document.getElementById('err-name').style.display = 'block'; isVali
     }
  
 })
+
