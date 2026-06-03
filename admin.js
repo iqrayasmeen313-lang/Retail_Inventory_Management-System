@@ -61,7 +61,10 @@ function renderTable(data) {
         btn.addEventListener('click', (e) => deleteItem(e.currentTarget.getAttribute('data-id')));
     });
 }
-
+ // Edit buttons
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => openEditModal(e.currentTarget.getAttribute('data-id')));
+    });
 /* --- DELETE OPERATION --- */
 async function deleteItem(id) {
     // Rubric strict requirement: Confirmation dialog before deletion
@@ -88,4 +91,60 @@ async function deleteItem(id) {
 /* --- INITIALIZATION --- */
 document.addEventListener('DOMContentLoaded', () => {
     fetchAdminInventory();
+});
+/* --- UPDATE (PUT/PATCH) OPERATION --- */
+async function openEditModal(id) {
+    try {
+        // Fetch the specific item's current data
+        const response = await fetch(`${API_URL}/${id}`);
+        if (!response.ok) throw new Error('Failed to fetch item details');
+        
+        const item = await response.json();
+
+        // Populate the modal inputs with the fetched data
+        document.getElementById('edit-id').value = item.id;
+        document.getElementById('edit-name').value = item.name;
+        document.getElementById('edit-price').value = item.price;
+        document.getElementById('edit-stock').value = item.stock;
+
+        // Display the native HTML dialog
+        document.getElementById('edit-modal').showModal();
+    } catch (error) {
+        console.error("Error loading item:", error);
+        alert("Could not load item details.");
+    }
+}
+
+document.getElementById('edit-form').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Stop page reload
+    
+    const id = document.getElementById('edit-id').value;
+    const newStock = parseInt(document.getElementById('edit-stock').value);
+    
+    // We use PATCH because we are only updating specific fields, not replacing the whole object
+    const updatedData = {
+        name: document.getElementById('edit-name').value.trim(),
+        price: parseFloat(document.getElementById('edit-price').value),
+        stock: newStock,
+        // Automatically calculate status based on the new stock quantity
+        status: newStock > 0 ? "In Stock" : "Out of Stock"
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'PATCH', // Allowed by the rubric
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+        });
+
+        if (!response.ok) throw new Error('Failed to update item');
+
+        // Close modal and refresh the data table automatically
+        document.getElementById('edit-modal').close();
+        fetchAdminInventory(); 
+        
+    } catch (error) {
+        console.error("Error updating item:", error);
+        alert("Error updating item.");
+    }
 });
