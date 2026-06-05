@@ -38,7 +38,7 @@
                     </div>
                     <div class="input-group">
                         <label for="sku">SKU</label>
-                        <input type="text" id="SKU" placeholder="e.g.FUR-992-UI">
+                        <input type="text" id="sku" placeholder="e.g.FUR-992-UI">
                         <span class="error-msg" id="err-sku">SKU Is Required</span>
                     </div>
                     <div class="input-group">
@@ -85,6 +85,10 @@
                             <option value="Audio">Audio</option>
                         </select>
                     </div>
+                     <div id="loading-indicator" class="loading">
+                <span class="material-symbols-outlined spin">sync</span>
+                <p>Loading Inventory...</p>
+            </div>
                 </div>
                 <div id="inventory-grid" class="grid-container"></div>
             </section>

@@ -56,15 +56,14 @@ function renderTable(data) {
         tbody.appendChild(tr);
     });
 
-    // Attach Action Listeners dynamically after rendering
+    // Attach action listeners dynamically after rendering
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => deleteItem(e.currentTarget.getAttribute('data-id')));
     });
-}
- // Edit buttons
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => openEditModal(e.currentTarget.getAttribute('data-id')));
     });
+}
 /* --- DELETE OPERATION --- */
 async function deleteItem(id) {
     // Rubric strict requirement: Confirmation dialog before deletion
@@ -139,12 +138,10 @@ document.getElementById('edit-form').addEventListener('submit', async (e) => {
 
         if (!response.ok) throw new Error('Failed to update item');
 
-        // Close modal and refresh the data table automatically
         document.getElementById('edit-modal').close();
-        fetchAdminInventory(); 
-        
+        fetchAdminInventory();
     } catch (error) {
-        console.error("Error updating item:", error);
-        alert("Error updating item.");
+        console.error('Error updating item:', error);
+        alert('Unable to save changes. Check the console for details.');
     }
 });

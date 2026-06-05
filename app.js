@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000?inventory';
+const API_URL = 'http://localhost:3000/inventory';
 let inventoryData = [];              //store locally for fast filtering
 //get inventory
 // async: Prepend this to a function to make it automatically return a Promise
@@ -6,7 +6,7 @@ let inventoryData = [];              //store locally for fast filtering
 async function fetchinventory(){
     try{
     const response = await fetch(API_URL);
-    const inventoryData = await response.json();
+    inventoryData = await response.json();
     //update 
     document.getElementById('active-items-count').textContent=inventoryData.length;
     //render initial grid
@@ -21,7 +21,7 @@ catch(error){
 //render grid html
 function renderGrid(data){
     const grid = document.getElementById('inventory-grid');
-    grid.innerHTML=";"       //clear existing items
+    grid.innerHTML = "";       //clear existing items
     if(data.length===0){
         grid.innerHTML = '<div style="color:var(--text-secondary);grid-column:1/-1;">No items found in this  category.</div>';
         return;
@@ -119,21 +119,11 @@ if (!name) { document.getElementById('err-name').style.display = 'block'; isVali
 
         if (!response.ok) throw new Error('Failed to save item');
 
-        // Reset the form inputs
+        // Refresh the inventory viewer after adding the item
         document.getElementById('add-item-form').reset();
-        
-        // Re-fetch and re-render the grid automatically
-        fetchInventory(); 
-        
+        await fetchinventory();
     } catch (error) {
-        console.error("Error posting data:", error);
-        // Display error visually instead of an alert box
-        const errBlock = document.createElement('div');
-        errBlock.style = 'color: white; background: var(--status-danger); padding: 1rem; border-radius: 6px; margin-top: 1rem;';
-        errBlock.textContent = "Failed to submit data. Check server connection.";
-        document.getElementById('add-item-form').appendChild(errBlock);
-        setTimeout(() => errBlock.remove(), 4000); // Remove after 4 seconds
+        console.error('Error saving item:', error);
+        alert('Unable to add the item. Check the console for details.');
     }
- 
-})
-
+});
