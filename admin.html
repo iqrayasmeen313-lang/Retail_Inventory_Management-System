@@ -21,6 +21,31 @@
                 <p style="color:var(--text-secondary);">Real-time tracking and management</p>
                 <!-- color which define in css is call here by use var()function  -->
             </header>
+            <section class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon"><span class="material-symbols-outlined">assignment_turned_in</span></div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Total Items</div>
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="stat-total-items">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><span class="material-symbols-outlined">payments</span></div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Inventory Value</div>
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="stat-total-value">$0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid var(--status-danger);">
+                    <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--status-danger);">
+                        <span class="material-symbols-outlined">warning</span>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Low Stock Alerts</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--status-danger);" id="stat-low-stock">0</div>
+                    </div>
+                </div>
+            </section>
             <section class="table-container">
                 <div style="padding: 1rem 1.5rem; border-bottom:1px solid var(--border);">
                     <h3 style="font-size: 1rem;">Recent Inventory</h3>

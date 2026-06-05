@@ -3,12 +3,18 @@ const API_URL = 'http://localhost:3000/inventory';
 
 /* --- READ (GET) & RENDER TABLE --- */
 async function fetchAdminInventory() {
+// Update the try block inside fetchAdminInventory() to look like this:
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Network response was not ok');
+        
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+        }
         
         const data = await response.json();
+        
         renderTable(data);
+        updateStats(data); // NEW: Trigger the stats calculation
     } catch (error) {
         console.error("Error fetching data:", error);
         document.getElementById('admin-tbody').innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--status-danger);">Error connecting to server. Ensure JSON server is running.</td></tr>`;
@@ -77,13 +83,13 @@ async function deleteItem(id) {
         
         if (response.ok) {
             // Re-fetch the data to refresh the table automatically
-            fetchAdminInventory(); 
+            fetchAdminInventory();
         } else {
             throw new Error('Failed to delete item');
         }
     } catch (error) {
-        console.error("Error deleting item:", error);
-        alert("Error deleting item. Check console for details.");
+        console.error('Error deleting item:', error);
+        alert('Unable to delete item. Please try again.');
     }
 }
 
@@ -145,3 +151,25 @@ document.getElementById('edit-form').addEventListener('submit', async (e) => {
         alert('Unable to save changes. Check the console for details.');
     }
 });
+/* --- CALCULATE & RENDER STATISTICS --- */
+function updateStats(data) {
+    // 1. Count: Total Items
+    const totalItems = data.length;
+    
+    // 2. Total: Inventory Value (sum of price * stock for every item)
+    const totalValue = data.reduce((sum, item) => {
+        return sum + (parseFloat(item.price) * parseInt(item.stock));
+    }, 0);
+    
+    // 3. Count: Low Stock Alerts (items with stock > 0 but less than 10)
+    const lowStockCount = data.filter(item => item.stock > 0 && item.stock < 10).length;
+
+    // Update the DOM elements
+    document.getElementById('stat-total-items').textContent = totalItems;
+    
+    // Format the value as currency using toLocaleString
+    document.getElementById('stat-total-value').textContent = 
+        `$${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        
+    document.getElementById('stat-low-stock').textContent = lowStockCount;
+}
