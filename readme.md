@@ -1,26 +1,69 @@
-# Retail Inventory Management System
-**Author:** [Iqra yasmeen]  
-**Roll Number:** [F24BDOCS1M01058]  
+# Capstone Project: Retail Inventory Management
 
-**project name:** Retail inventory management system
+**Course:** Web Technologies SP26  
+**Student:** Iqra Yasmeen (Roll No: F24BDOCS1M01058)  
+**Semester:** 4th Semester - 2M
 
-## Project Description
-This is a comprehensive Retail Inventory Management dashboard built entirely in plain JavaScript. The application demonstrates DOM manipulation, event handling, inline form validation, and full CRUD (Create, Read, Update, Delete) capabilities communicating with a mock REST API via JSON Server. 
+---
 
-## Features
-* **User Panel:** * View inventory grid fetching live data via GET request.
-  * Filter items dynamically by category.
-  * Securely add new items using a POST form with strict custom inline validation.
-* **Admin Dashboard:** * Dedicated management panel with distinct visual navigation.
-  * High-density data table displaying all inventory items.
-  * Edit existing items via a native HTML dialog modal (PATCH request).
-  * Delete items securely with a browser confirmation dialog.
-  * Real-time summary statistics calculating Total Items, Inventory Value, and Low Stock Alerts.
-* **Resiliency:** Implements `async/await` with comprehensive `try/catch` error handling and visual loading states.
+## About The Project
 
-## Setup and Installation Instructions
-1. Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
-2. Extract the project folder and open a terminal inside the root directory.
-3. Start the mock backend server by running the following command:
-   `npx json-server --watch db.json`
-4. Keep the terminal open. Open `index.html` in your preferred web browser to view and interact with the application.
+A straightforward web app built with HTML, CSS, and plain JavaScript. It demonstrates dynamic DOM updates, form validation, and CRUD operations using a local database (`json-server`).
+
+## Project Architecture
+
+### 1. The Storefront (User View)
+
+**Files:** `index.html` & `app.js`
+
+- Displays available inventory in a responsive grid layout.
+- Includes a dropdown for real-time category filtering.
+- Allows adding new products via a form that features strict client-side validation.
+- Products display smart, color-coded badges that automatically adjust based on stock levels (In Stock, Low Stock, Discontinued).
+- Includes a dark/light mode toggle that saves your preference to `localStorage`.
+
+### 2. The Management Dashboard (Admin View)
+
+**Files:** `admin.html` & `admin.js`
+
+- Table view of all products.
+- Live stats (Total Value, Total Items, Low Stock).
+- Built-in `<dialog>` modals to edit items.
+- Secure delete with browser confirmation.
+
+## Async/Await and CRUD Fetch Requests
+
+The app uses modern `fetch` requests with `async`/`await` to communicate with the `json-server` backend. This makes the asynchronous API flow easier to read and maintain.
+
+- `GET` requests load product data for the storefront and admin dashboard.
+- `POST` requests add new inventory items from the add product form.
+- `PATCH` requests update product details in the admin edit dialog.
+- `DELETE` requests remove items from inventory with a browser confirmation step.
+
+All API calls are handled in plain JavaScript with `async` functions, `await` to pause until the network response is ready, and error handling to keep the UI stable.
+
+- Table view of all products.
+- Live stats (Total Value, Total Items, Low Stock).
+- Built-in `<dialog>` modals to edit items.
+- Secure delete with browser confirmation.
+
+## How to Run
+
+Ensure Node.js is installed.
+
+**Step 1: Clone the Repository**
+
+```bash
+git clone https://github.com/iqrayasmeen313-lang/Retail_Inventory_Management-System.git
+cd Retail_Inventory_Management-System
+```
+
+**Step 2: Start the Database**
+Run `json-server` to serve `db.json`:
+
+```bash
+npx json-server --watch db.json --port 3000
+```
+
+**Step 3: Launch the App**
+Open `index.html` directly in your web browser. Navigate to `admin.html` for the dashboard.
