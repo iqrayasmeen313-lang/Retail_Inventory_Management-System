@@ -1,152 +1,197 @@
-const API_URL = 'http://localhost:3000/inventory';
-/* --- BONUS: DARK MODE TOGGLE --- */
-function initTheme() {
-    const toggleBtn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    
-    // Check localStorage for saved preference, default to 'light'
-    const savedTheme = localStorage.getItem('app-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    icon.textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
+const API_URL = "http://localhost:3000/inventory";
 
-    toggleBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        // Apply new theme and save to localStorage
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('app-theme', newTheme);
-        
-        // Swap the icon
-        icon.textContent = newTheme === 'dark' ? 'light_mode' : 'dark_mode';
-    });
+// Store locally for fast filtering
+let inventoryData = [];
+
+// DOM Elements
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+const activeItemsCount = document.getElementById("active-items-count");
+const inventoryGrid = document.getElementById("inventory-grid");
+const filterCategory = document.getElementById("filter-category");
+const addItemForm = document.getElementById("add-item-form");
+const nameInput = document.getElementById("name");
+const skuInput = document.getElementById("sku");
+const categoryInput = document.getElementById("category");
+const priceInput = document.getElementById("price");
+const stockInput = document.getElementById("stock");
+const errName = document.getElementById("err-name");
+const errSku = document.getElementById("err-sku");
+const errCategory = document.getElementById("err-category");
+const errPrice = document.getElementById("err-price");
+const errStock = document.getElementById("err-stock");
+
+// DOMContentLoaded event listener to initialize the app
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  fetchinventory();
+});
+
+// Initialize dark mode based on user preference
+function initTheme() {
+  // Check localStorage for saved preference, light is default
+  const savedTheme = localStorage.getItem("app-theme") || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  themeIcon.textContent = savedTheme === "dark" ? "light_mode" : "dark_mode";
+
+  themeToggleBtn.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+    // Apply new theme and save to localStorage
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("app-theme", newTheme);
+
+    // Swap the icon
+    themeIcon.textContent = newTheme === "dark" ? "light_mode" : "dark_mode";
+  });
 }
-let inventoryData = [];              //store locally for fast filtering
-//get inventory
-// async: Prepend this to a function to make it automatically return a Promise
-// await: Use this inside an async function to pause code execution until a Promise resolves, seamlessly unwrapping its value right into a variable
-async function fetchinventory(){
-    try{
+
+// Fetch inventory data from the API (GET)
+async function fetchinventory() {
+  try {
     const response = await fetch(API_URL);
     inventoryData = await response.json();
-    //update 
-    document.getElementById('active-items-count').textContent=inventoryData.length;
-    //render initial grid
+    activeItemsCount.textContent = inventoryData.length;
     renderGrid(inventoryData);
+  } catch (error) {
+    console.error("Error fetching data", error);
+    inventoryGrid.innerHTML =
+      '<div class="error-message-grid">Error loading data. Ensure JSON Server is running.</div>';
+  }
 }
-catch(error){
-    console.error("Error fetching data",error)
-    document.getElementById('inventory-grid').innerHTML='<div style="color: var(--status-danger);grid-column: 1/-1;">Error loading data. Ensure JSON Server is running.</div>';
-}
-}
-// render grid function receives data (array of items) and displays them on the webpage.
-//render grid html
-function renderGrid(data){
-    const grid = document.getElementById('inventory-grid');
-    grid.innerHTML = "";       //clear existing items
-    if(data.length===0){
-        grid.innerHTML = '<div style="color:var(--text-secondary);grid-column:1/-1;">No items found in this  category.</div>';
-        return;
+// Render inventory items grid
+function renderGrid(data) {
+  inventoryGrid.innerHTML = "";
+  if (data.length === 0) {
+    inventoryGrid.innerHTML =
+      '<div class="empty-message-grid">No items found in this  category.</div>';
+    return;
+  }
+  data.forEach((item) => {
+    const maxStock = item.maxStock || 100;
+    const stockPct = Math.min((item.stock / maxStock) * 100, 100); // Stock percentage calculation
+    // badge style and text logic
+    let badgeClass = "in-stock";
+    let badgeText = "In Stock";
+
+    if (item.stock === 0 || item.status === "Discontinued") {
+      badgeClass = "discontinued";
+      badgeText =
+        item.status === "Discontinued" ? "Discontinued" : "Out of Stock";
+    } else if (item.stock < 10 || item.status === "Low Stock") {
+      badgeClass = "low-stock";
+      badgeText = "Low Stock";
     }
-    data.forEach(item =>{
-        const maxStock= item.maxStock||100;
-        const stockPct= Math.min((item.stock/maxStock)*100,100);
-        //badge style
-        let badgeClass='in-stock';
-        if(item.stock ===0||item.status==='Discontinued')badgeClass='discontinued';
-        else if(item.stock<10||item.status==='Low Stock')badgeClass='Low-stock';
-        const card = document.createElement('div');
-        card.className='item-card';
-                card.innerHTML = `
-            <img src="${item.imageUrl || 'https://via.placeholder.com/400'}" alt="${item.name}" class="item-img">
+    const card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML = `
+            <img src="${item.imageUrl || "https://via.placeholder.com/400"}" alt="${item.name}" class="item-img">
             <div class="item-details">
-            <div style="display:flex;justify-content:space-between;alighn-items:start; margin-bottom:0.5rem;">
-            <span style="font-size:0.75rem;color:var(--text-secondary);text-transform:uppercase;">${item.category}</span>
-                                <span class="badge ${badgeClass}">${item.status || (item.stock > 0 ? 'In Stock' : 'Out of Stock')}</span>
+            <div class="item-card-header">
+            <span class="item-category-label">${item.category}</span>
+                                <span class="badge ${badgeClass}">${badgeText}</span>
                 </div>
-                <h3 style="margin-bottom: 0.25rem;">${item.name}</h3>
+                <h3 class="item-title">${item.name}</h3>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">SKU: ${item.sku}</span>
-                    <span style="font-weight: 700; color: var(--text-primary);">$${parseFloat(item.price).toFixed(2)}</span>
+                <div class="item-pricing">
+                    <span class="item-sku">SKU: ${item.sku}</span>
+                    <span class="item-price-val">$${parseFloat(item.price).toFixed(2)}</span>
                 </div>
 
                 <div class="stock-bar-container">
                     <div class="stock-bar" style="width: ${stockPct}%;"></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                <div class="item-stock-info">
                     <span>Stock: ${item.stock} units</span>
                     <span>${Math.round(stockPct)}%</span>
                 </div>
             </div>
         `;
-        grid.appendChild(card);
-    });
+    inventoryGrid.appendChild(card);
+  });
 }
-//filter listener
-document.getElementById('filter-category').addEventListener('change',(e)=>{
-    const selectedCategory= e.target.value;
-    if (selectedCategory==='All') {
-        renderGrid(inventoryData);      //show all items
-    }
-    else{
-        const filteredData = inventoryData.filter(item=> item.category===selectedCategory);
-        renderGrid(filteredData);
-    }
+// Handle category filtering
+filterCategory.addEventListener("change", (e) => {
+  const selectedCategory = e.target.value;
+  if (selectedCategory === "All") {
+    renderGrid(inventoryData);
+  } else {
+    const filteredData = inventoryData.filter(
+      (item) => item.category === selectedCategory,
+    );
+    renderGrid(filteredData);
+  }
 });
- //fetch data when html is fully loaded
- document.addEventListener('DOMContentLoaded',()=>{
-    initTheme();
-    fetchinventory();
- });
-//create post and check inline property
-document.getElementById('add-item-form').addEventListener('submit',async(e)=>{
+
+// Handle new item submission (POST)
+document
+  .getElementById("add-item-form")
+  .addEventListener("submit", async (e) => {
     e.preventDefault();
-    // gather all inputs 
-    const name= document.getElementById('name').value.trim();
-    const sku= document.getElementById('sku').value.trim()
-    const category= document.getElementById('category').value;
-    const price= parseFloat(document.getElementById('price').value);
-    const stock= parseInt(document.getElementById('stock').value);
 
-    //reset error msgs(at begining we hide the error)
-    document.querySelectorAll('.error-msg').forEach(el=>el.style.display='none')
-    let isValid= true;
-        // Custom Inline Validation checks
-if (!name) { document.getElementById('err-name').style.display = 'block'; isValid = false; }
-    if (!sku) { document.getElementById('err-sku').style.display = 'block'; isValid = false; }
-    if (!category) { document.getElementById('err-category').style.display = 'block'; isValid = false; }
-    if (isNaN(price) || price <= 0) { document.getElementById('err-price').style.display = 'block'; isValid = false; }
-    if (isNaN(stock) || stock < 0) { document.getElementById('err-stock').style.display = 'block'; isValid = false; }    
-        if (!isValid) return; 
+    const name = nameInput.value.trim();
+    const sku = skuInput.value.trim();
+    const category = categoryInput.value;
+    const price = parseFloat(priceInput.value);
+    const stock = parseInt(stockInput.value);
 
-    // Construct the new data object
+    // Reset error messages
+    document
+      .querySelectorAll(".error-msg")
+      .forEach((el) => (el.style.display = "none"));
+    let isValid = true;
+
+    // Validate inputs
+    if (!name) {
+      errName.style.display = "block";
+      isValid = false;
+    }
+    if (!sku) {
+      errSku.style.display = "block";
+      isValid = false;
+    }
+    if (!category) {
+      errCategory.style.display = "block";
+      isValid = false;
+    }
+    if (isNaN(price) || price <= 0) {
+      errPrice.style.display = "block";
+      isValid = false;
+    }
+    if (isNaN(stock) || stock < 0) {
+      errStock.style.display = "block";
+      isValid = false;
+    }
+    if (!isValid) return;
+
     const newItem = {
-        id: `INV-${Math.floor(1000 + Math.random() * 9000)}`, // Generate random 4-digit ID
-        name,
-        sku,
-        category,
-        price,
-        stock,
-        maxStock: 100, // Default max stock for percentage calculations
-        status: stock > 0 ? "In Stock" : "Out of Stock",
-        imageUrl: "https://images.unsplash.com/photo-1580169980114-ccd0babfa840?auto=format&fit=crop&q=80&w=400" // Fallback image
+      id: `INV-${Math.floor(1000 + Math.random() * 9000)}`, // random id generation
+      name,
+      sku,
+      category,
+      price,
+      stock,
+      maxStock: 100, // Default max stock for percentage calculations
+      status: stock > 0 ? "In Stock" : "Out of Stock",
+      imageUrl:
+        "https://images.unsplash.com/photo-1580169980114-ccd0babfa840?auto=format&fit=crop&q=80&w=400", // Fallback image
     };
 
     try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newItem)
-        });
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem),
+      });
 
-        if (!response.ok) throw new Error('Failed to save item');
+      if (!response.ok) throw new Error("Failed to save item");
 
-        // Refresh the inventory viewer after adding the item
-        document.getElementById('add-item-form').reset();
-        await fetchinventory();
+      // Refresh the inventory viewer after adding the item
+      addItemForm.reset();
+      await fetchinventory();
     } catch (error) {
-        console.error('Error saving item:', error);
-        alert('Unable to add the item. Check the console for details.');
+      console.error("Error saving item:", error);
+      alert("Unable to add the item. Check the console for details.");
     }
-});
+  });

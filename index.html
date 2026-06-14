@@ -1,108 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retail Inventory Management System </title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retail Inventory Management System</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Main Navigation -->
     <header class="top-nav">
-        <div class="nav_brand">Retail Inventory Management System</div>
-        <nav class="nav-links">
-            <a href="#" class="active">Dashboard</a>
-            
-            <button id="theme-toggle" class="btn-outline" title="Toggle Dark Mode">
-                <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
-            </button>
-            
-            <a href="admin.html" class="btn-primary">Admin Panel</a>
-        </nav>
+      <div class="nav_brand">Retail Inventory Management System</div>
+      <nav class="nav-links">
+        <a href="#" class="active">Dashboard</a>
+
+        <button id="theme-toggle" class="btn-outline" title="Toggle Dark Mode">
+          <span class="material-symbols-outlined" id="theme-icon"
+            >dark_mode</span
+          >
+        </button>
+
+        <a href="admin.html" class="btn-primary">Admin Panel</a>
+      </nav>
     </header>
+
+    <!-- User Dashboard Area -->
     <main class="user-layout">
-        <div class="top-section">
-            <section class="hero-card">
-                <div>
-                    <h2>Inventory Control</h2>
-                    <p>Manage your product levels with precision.</p>
-                </div>
-                <div>
-                    <span class="material-symbol-outlined">inventory_2</span>
-                    <div class="hero-number" id="active-items-count">0</div>
-                    <div style="font-size: 0.875rem; text-transform: uppercase;">Total Active Items</div>
-                </div>
-            </section>
-            </div>
-            <section class="form-card" id="form-container">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                   <h2>Add New Item</h2>
-                   <span class="badge" style="background: var(--bg-secondary);">Mannaul Entry</span>
-                    <!-- span is inline container which used for styling purpose and badge is class which is used to style the span element. -->
-                </div>
-                <form id="add-item-form" class="form-grid">
-                    <div class="input-group">
-                        <label for="name">Item Name</label>
-                        <input id="name" type="text" placeholder="e.g. Chair">
-                        <span class="error-msg" id="err-name">Name is required</span>
-                    </div>
-                    <div class="input-group">
-                        <label for="sku">SKU</label>
-                        <input type="text" id="sku" placeholder="e.g.FUR-992-UI">
-                        <span class="error-msg" id="err-sku">SKU Is Required</span>
-                    </div>
-                    <div class="input-group">
-                        <label for="category">Category</label>
-                        <select id="category">
-                            <option for="">Select Category</option>
-                            <option for="furniture">Furniture</option>
-                            <option for="apperal">Apperal</option>
-                            <option for="electronics">Electronics</option>
-                            <option for="audio">Audio</option>
-                        </select>
-                        <span class="error-msg" id="err-category">Please select a category</span>
-                    </div>
-                    <div class="input-group">
-                        <label for="price">Price</label>
-                        <input type="text" id="price" step="0.01" min="0.01" placeholder="0.00">
-                        <span class="error-msg" id="err-price">Valid price required</span>
-                    </div>
-                    <div class="input-group full-width">
-                        <label for="stock">Quantity</label>
-                        <input type="text" id="stock"  min="0" placeholder="0">
-                        <span class="error-msg" id="err-stock">Quantity required</span>
-                    </div>
-                    <div class="input-group full-width" style="margin-top: 1rem;">
-                        <button type="submit" class="btn-primary">
-                            <span class="material-symbols-outlined">Add</span>Add to inventory
-                        </button>
-                    </div>
-                </form>
-            </section>
-            <section>
-                <div class="inventory-header">
-                    <div>
-                        <h2>Inventory Viewer</h2>
-                        <p>Real-time stock monitoring.</p>                 
-                    </div>
-                    <div class="input-group" style="flex-direction: row; align-items: center; gap:1rem;">
-                        <label for="filter-category">Filter by:</label>
-                        <select id="filter-category" style="width: auto;">
-                            <option value="All">All Categories</option>
-                            <option value="Furniture">Furniture</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Apparel">Apparel</option>
-                            <option value="Audio">Audio</option>
-                        </select>
-                    </div>
-                     <div id="loading-indicator" class="loading">
-                <span class="material-symbols-outlined spin">sync</span>
-                <p>Loading Inventory...</p>
-            </div>
-                </div>
-                <div id="inventory-grid" class="grid-container"></div>
-            </section>
+      <!-- Top Stats Section -->
+      <div class="top-section">
+        <section class="hero-card">
+          <div>
+            <h2>Inventory Control</h2>
+            <p>Manage your product levels with precision.</p>
+          </div>
+          <div>
+            <div class="hero-number" id="active-items-count">0</div>
+            <div class="hero-label">Total Active Items</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Add New Item Form -->
+      <section class="form-card" id="form-container">
+        <div class="form-header">
+          <h2>Add New Item</h2>
+          <span class="badge badge-secondary">Manual Entry</span>
+        </div>
+        <form id="add-item-form" class="form-grid">
+          <div class="input-group">
+            <label for="name">Item Name</label>
+            <input id="name" type="text" placeholder="e.g. Chair" />
+            <span class="error-msg" id="err-name">Name is required</span>
+          </div>
+          <div class="input-group">
+            <label for="sku">SKU</label>
+            <input type="text" id="sku" placeholder="e.g.FUR-992-UI" />
+            <span class="error-msg" id="err-sku">SKU Is Required</span>
+          </div>
+          <div class="input-group">
+            <label for="category">Category</label>
+            <select id="category">
+              <option for="">Select Category</option>
+              <option for="furniture">Furniture</option>
+              <option for="apperal">Apperal</option>
+              <option for="electronics">Electronics</option>
+              <option for="audio">Audio</option>
+            </select>
+            <span class="error-msg" id="err-category"
+              >Please select a category</span
+            >
+          </div>
+          <div class="input-group">
+            <label for="price">Price</label>
+            <input
+              type="text"
+              id="price"
+              step="0.01"
+              min="0.01"
+              placeholder="0.00"
+            />
+            <span class="error-msg" id="err-price">Valid price required</span>
+          </div>
+          <div class="input-group full-width">
+            <label for="stock">Quantity</label>
+            <input type="text" id="stock" min="0" placeholder="0" />
+            <span class="error-msg" id="err-stock">Quantity required</span>
+          </div>
+          <div class="input-group full-width mt-1">
+            <button type="submit" class="btn-primary">
+              <span class="material-symbols-outlined">Add</span>Add to inventory
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Inventory Grid Section -->
+      <section>
+        <div class="inventory-header">
+          <div>
+            <h2>Inventory Viewer</h2>
+            <p>Real-time stock monitoring.</p>
+          </div>
+          <div class="input-group filter-group">
+            <label for="filter-category">Filter by:</label>
+            <select id="filter-category" class="auto-width">
+              <option value="All">All Categories</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Apparel">Apparel</option>
+              <option value="Audio">Audio</option>
+            </select>
+          </div>
+          <div id="loading-indicator" class="loading">
+            <span class="material-symbols-outlined spin">sync</span>
+            <p>Loading Inventory...</p>
+          </div>
+        </div>
+        <div id="inventory-grid" class="grid-container"></div>
+      </section>
     </main>
 
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
