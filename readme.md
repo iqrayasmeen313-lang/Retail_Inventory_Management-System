@@ -2,6 +2,7 @@
 **Author:** [Iqra yasmeen]  
 **Roll Number:** [F24BDOCS1M01058]  
 **Course:** Web Technologies SP26 Capstone Project
+**project name:** Reatail inventory management system
 
 ## Project Description
 This is a comprehensive Retail Inventory Management dashboard built entirely in plain JavaScript. The application demonstrates DOM manipulation, event handling, inline form validation, and full CRUD (Create, Read, Update, Delete) capabilities communicating with a mock REST API via JSON Server. 
