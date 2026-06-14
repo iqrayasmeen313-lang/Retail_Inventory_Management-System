@@ -15,9 +15,9 @@
   "id":"INV-8822",
   "name":"Noise Cancel Pro",
   "sku":"ELE-442-HP",
-  "CATAGORY":"Electronics",
+  "category":"Electronics",
   "price":189.50,
-  "Stock":8,
+  "stock":8,
   "maxstock":40,
   "status":"Low Stock",
   "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400"
@@ -28,7 +28,7 @@
   "sku":"ELE-901-SW",
   "category":"Electronics",
   "price":420.0,
-  "Stock":120,
+  "stock":120,
   "maxstock":120,
   "status":"In Stock",
   "imageUrl":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400"
@@ -39,9 +39,9 @@
   "sku":"APP-331-RS",
   "category":"Apparel",
   "price":120.00,
-  "Stock":0,
+  "stock":0,
   "maxstock":100,
-  "status":"Discotinued",
+  "status":"Discontinued",
   "imageUrl":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=400"
 
 }
