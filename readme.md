@@ -2,6 +2,7 @@
 **Author:** [Iqra yasmeen]  
 **Roll Number:** [F24BDOCS1M01058]  
 **Course:** Web Technologies SP26 Capstone Project
+
 **project name:** Reatail inventory management system
 
 ## Project Description
