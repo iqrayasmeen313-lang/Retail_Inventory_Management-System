@@ -1,7 +1,6 @@
 # Retail Inventory Management System
 **Author:** [Iqra yasmeen]  
 **Roll Number:** [F24BDOCS1M01058]  
-**Course:** Web Technologies SP26 Capstone Project
 
 **project name:** Reatail inventory management system
 
@@ -25,8 +24,3 @@ This is a comprehensive Retail Inventory Management dashboard built entirely in 
 3. Start the mock backend server by running the following command:
    `npx json-server --watch db.json`
 4. Keep the terminal open. Open `index.html` in your preferred web browser to view and interact with the application.
-
-## Screenshots
-*(Ensure `user-panel.png` and `admin-panel.png` are in the same folder)*
-![User Panel Screenshot](./user-panel.png)
-![Admin Panel Screenshot](./admin-panel.png)
