@@ -8,7 +8,7 @@
 
 ## About The Project
 
-A straightforward web app built with HTML, CSS, and plain JavaScript. It demonstrates dynamic DOM updates, form validation, and CRUD operations using a local database (`json-server`).
+A Retail Inventory Management web app built with HTML, CSS, and plain JavaScript. It demonstrates dynamic DOM updates, form validation, and CRUD operations using a local database (`json-server`).
 
 ## Project Architecture
 
