@@ -1,5 +1,25 @@
 /* --- GLOBAL SETTINGS --- */
 const API_URL = 'http://localhost:3000/inventory';
+/* --- BONUS: ADMIN DARK MODE TOGGLE --- */
+function initAdminTheme() {
+    const toggleBtn = document.getElementById('admin-theme-toggle');
+    const icon = document.getElementById('admin-theme-icon');
+    
+    // Check localStorage
+    const savedTheme = localStorage.getItem('app-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    icon.textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
+
+    toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent the <a> tag from jumping to top of page
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('app-theme', newTheme);
+        icon.textContent = newTheme === 'dark' ? 'light_mode' : 'dark_mode';
+    });
+}
 
 /* --- READ (GET) & RENDER TABLE --- */
 async function fetchAdminInventory() {
@@ -95,6 +115,7 @@ async function deleteItem(id) {
 
 /* --- INITIALIZATION --- */
 document.addEventListener('DOMContentLoaded', () => {
+        initAdminTheme(); 
     fetchAdminInventory();
 });
 /* --- UPDATE (PUT/PATCH) OPERATION --- */

@@ -1,4 +1,26 @@
 const API_URL = 'http://localhost:3000/inventory';
+/* --- BONUS: DARK MODE TOGGLE --- */
+function initTheme() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    
+    // Check localStorage for saved preference, default to 'light'
+    const savedTheme = localStorage.getItem('app-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    icon.textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
+
+    toggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Apply new theme and save to localStorage
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('app-theme', newTheme);
+        
+        // Swap the icon
+        icon.textContent = newTheme === 'dark' ? 'light_mode' : 'dark_mode';
+    });
+}
 let inventoryData = [];              //store locally for fast filtering
 //get inventory
 // async: Prepend this to a function to make it automatically return a Promise
@@ -74,6 +96,7 @@ document.getElementById('filter-category').addEventListener('change',(e)=>{
 });
  //fetch data when html is fully loaded
  document.addEventListener('DOMContentLoaded',()=>{
+    initTheme();
     fetchinventory();
  });
 //create post and check inline property
